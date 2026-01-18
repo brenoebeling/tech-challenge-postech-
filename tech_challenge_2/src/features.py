@@ -21,8 +21,8 @@ def create_features(df: pd.DataFrame) -> pd.DataFrame:
     data["ma_10"] = data["Close"].rolling(window=10).mean()
     data["ma_20"] = data["Close"].rolling(window=20).mean()
 
-    # Rolling volatility (5-day standard deviation)
-    data["volatility_5"] = data["Close"].rolling(window=5).std()
+    # Rolling volatility (10-day standard deviation)
+    data["volatility_10"] = data["Close"].rolling(window=10).std()
 
     # Close lags
     data["close_lag_1"] = data["Close"].shift(1)

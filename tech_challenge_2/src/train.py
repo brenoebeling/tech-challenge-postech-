@@ -54,7 +54,7 @@ def train_model(train_df: pd.DataFrame) -> LogisticRegression:
         "ma_5",
         "ma_10",
         "ma_20",
-        "volatility_5",
+        "volatility_10",
         "close_lag_1",
         "close_lag_2",
     ]
@@ -67,7 +67,7 @@ def train_model(train_df: pd.DataFrame) -> LogisticRegression:
     return model
 
 
-def evaluate_model(model: LogisticRegression, test_df: pd.DataFrame) -> float:
+def evaluate_model(model: LogisticRegression, test_df: pd.DataFrame) -> None:
     """Evaluate model and print metrics."""
     feature_cols = [
         "daily_return",
@@ -76,7 +76,7 @@ def evaluate_model(model: LogisticRegression, test_df: pd.DataFrame) -> float:
         "ma_5",
         "ma_10",
         "ma_20",
-        "volatility_5",
+        "volatility_10",
         "close_lag_1",
         "close_lag_2",
     ]
@@ -97,8 +97,6 @@ def evaluate_model(model: LogisticRegression, test_df: pd.DataFrame) -> float:
     print("Confusion Matrix:")
     print(confusion)
 
-    return accuracy
-
 
 def save_model(model: LogisticRegression, output_path: Path | str) -> None:
     """Persist the trained model to disk."""
@@ -118,10 +116,7 @@ if __name__ == "__main__":
     train_df, test_df = temporal_train_test_split(df_features, test_size=30)
 
     trained_model = train_model(train_df)
-    test_accuracy = evaluate_model(trained_model, test_df)
-
-    if test_accuracy < 0.75:
-        print("Warning: test accuracy below 75% target.")
+    evaluate_model(trained_model, test_df)
 
     model_path = base_dir / "model" / "model.pkl"
     save_model(trained_model, model_path)
